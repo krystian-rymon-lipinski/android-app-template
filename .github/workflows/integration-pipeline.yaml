@@ -1,0 +1,62 @@
+name: Integration-Pipeline
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+    - 'master'
+    - 'main'
+
+jobs:
+  integrate:
+    runs-on: macos-latest
+    permissions:  # needed for "Publish Test Results" action
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout project sources
+        uses: actions/checkout@v4
+
+      - name: Setup Java distribution
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Add permissions for Gradle
+        run: chmod +x gradlew
+
+      - name: Assemble
+        id: 'assemble'
+        run: ./gradlew assembleDebug
+
+      - name: Unit Tests
+        id: unit_tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Instrumented Tests
+        id: instrumented_tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 37
+          script: ./gradlew connectedDebugAndroidTest
+          disable-animations: true
+
+      - name: Test Results Upload
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: app/build/**/TEST-*.xml
+
+      - name: Test Results Presentation
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: app/build/**/TEST-*.xml
