@@ -11,7 +11,7 @@ on:
 
 jobs:
   integrate:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     permissions:  # needed for "Publish Test Results" action
       contents: read
       issues: read
@@ -44,9 +44,11 @@ jobs:
         id: instrumented_tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 37
-          script: ./gradlew connectedDebugAndroidTest
+          api-level: 35
+          target: google_apis
+          arch: x86_64
           disable-animations: true
+          script: ./gradlew connectedDebugAndroidTest
 
       - name: Test Results Upload
         if: always()
