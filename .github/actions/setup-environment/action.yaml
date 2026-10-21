@@ -4,9 +4,6 @@ description: 'Setup environment for a job'
 runs:
   using: 'composite'
   steps:
-    - name: Checkout project sources
-      uses: actions/checkout@v6
-
     - name: Setup Java distribution
       uses: actions/setup-java@v5
       with:
