@@ -1,0 +1,12 @@
+name: 'Enable KVM'
+description: 'Enable KVM to properly use Android emulator'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Enable KVM
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+      shell: bash

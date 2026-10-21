@@ -1,4 +1,11 @@
-name: Integration-Pipeline
+# Continuous Integration pipeline. Procedure:
+# 1a. Assemble
+# 1b. Setup AVD cache for emulator
+# 2a. Run unit tests
+# 2b. Run instrumentation tests
+# 3. Publish test results
+
+name: 'Integration pipeline'
 
 on:
   push:
@@ -10,62 +17,41 @@ on:
     - 'main'
 
 jobs:
-  integrate:
+  assemble:
     runs-on: ubuntu-latest
-    permissions:  # needed for "Publish Test Results" action
-      contents: read
-      issues: read
-      checks: write
-      pull-requests: write
-
     steps:
-      - name: Checkout project sources
-        uses: actions/checkout@v6
-
-      - name: Setup Java distribution
-        uses: actions/setup-java@v5
-        with:
-          java-version: '25'
-          distribution: 'temurin'
-          cache: 'gradle'
-
-      - name: Add permissions for Gradle
-        run: chmod +x gradlew
-
+      - uses: ./.github/actions/setup-environment
       - name: Assemble
-        id: 'assemble'
         run: ./gradlew assembleDebug
 
+  setup-avd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-environment
+      - uses: ./.github/actions/setup-avd
+
+  unit-test:
+    runs-on: ubuntu-latest
+    needs: assemble
+    steps:
+      - uses: ./.github/actions/setup-environment
+
       - name: Unit Tests
-        id: unit_tests
         run: ./gradlew testDebugUnitTest
 
-      - name: Enable KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
-      - name: AVD cache
-        uses: actions/cache@v5
-        id: avd-cache
+      - name: Unit tests results upload
+        uses: actions/upload-artifact@v7
         with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-35
+          name: unit-tests-results
+          path: app/build/**/TEST-*.xml
 
-      - name: Create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 35
-          target: google_apis
-          arch: x86_64
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
-          script: echo "Generated AVD snapshot for caching."
+  instrumentation-test:
+    runs-on: ubuntu-latest
+    needs: [assemble, setup-avd]
+    steps:
+      - uses: ./.github/actions/setup-environment
+      - uses: ./.github/actions/enable-kvm
+      - uses: ./.github/actions/cache-avd
 
       - name: Instrumented Tests
         id: instrumented_tests
@@ -79,15 +65,27 @@ jobs:
           disable-animations: true
           script: ./gradlew connectedDebugAndroidTest
 
-      - name: Test Results Upload
-        if: always()
+      - name: Instrumented tests results upload
         uses: actions/upload-artifact@v7
         with:
-          name: test-results
+          name: instrumented-tests-results
           path: app/build/**/TEST-*.xml
 
+  publish-results:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
+    needs: [unit-test, instrumentation-test]
+    steps:
+      - name: Test Results Upload
+        uses: actions/download-artifact@v7
+        # Omitting 'name:' downloads all artifacts into the workspace
+
       - name: Test Results Presentation
-        if: always()
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
-          files: app/build/**/TEST-*.xml
+          files: |
+            **/TEST-*.xml
