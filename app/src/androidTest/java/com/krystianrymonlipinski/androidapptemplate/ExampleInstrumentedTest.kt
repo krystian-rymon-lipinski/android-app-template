@@ -1,4 +1,4 @@
-package com.krystianrymonlipinski.android_app_template
+package com.krystianrymonlipinski.androidapptemplate
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

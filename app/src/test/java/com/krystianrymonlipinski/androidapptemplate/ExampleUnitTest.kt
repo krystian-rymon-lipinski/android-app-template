@@ -1,4 +1,4 @@
-package com.krystianrymonlipinski.android_app_template
+package com.krystianrymonlipinski.androidapptemplate
 
 import org.junit.Test
 import org.junit.Assert.assertEquals

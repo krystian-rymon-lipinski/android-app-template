@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.krystianrymonlipinski.android_app_template"
+    namespace = "com.krystianrymonlipinski.androidapptemplate"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.krystianrymonlipinski.android_app_template"
+        applicationId = "com.krystianrymonlipinski.androidapptemplate"
         minSdk = 28
         targetSdk = 37
         versionCode = 1
