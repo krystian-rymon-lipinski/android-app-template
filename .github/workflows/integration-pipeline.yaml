@@ -1,5 +1,5 @@
 # Continuous Integration pipeline. Procedure:
-# 1a. Assemble
+# 1a. Perform Lint check, assemble
 # 1b. Setup AVD cache for emulator
 # 2a. Run unit tests
 # 2b. Run instrumentation tests
@@ -22,6 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-environment
+
+      - name: Lint check
+        run: ./gradlew lintDebug
       - name: Assemble
         run: ./gradlew assembleDebug
 
