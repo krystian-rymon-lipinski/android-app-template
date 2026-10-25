@@ -1,6 +1,9 @@
+import dev.detekt.gradle.extensions.FailOnSeverity
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -30,6 +33,20 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+}
+
+detekt {
+    version = "${libs.versions.detekt}"
+    source.setFrom(
+        "src/main/java",
+        "src/main/kotlin",
+        "src/test/java",
+        "src/test/kotlin",
+        "src/androidTest/java",
+        "src/androidTest/kotlin"
+    )
+    config.setFrom("./../config/detekt/detekt.yml")
+    failOnSeverity = FailOnSeverity.Error
 }
 
 dependencies {

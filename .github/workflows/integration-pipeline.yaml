@@ -27,6 +27,8 @@ jobs:
         run: ./gradlew lintDebug
       - name: KtLint check
         run: ./gradlew ktlintCheck
+      - name: Detekt check
+        run: ./gradlew detektDebug
       - name: Assemble
         run: ./gradlew assembleDebug
 
