@@ -1,0 +1,13 @@
+temurin
+ignoreLateinitVar
+swiftshader
+udevadm
+ProjectLLOCProcessor
+ProjectSLOCProcessor
+DontDowncastCollectionTypes
+LateinitUsage
+setlocal
+ERRORLEVEL
+Dorg
+appname
+endlocal
