@@ -1,5 +1,5 @@
 # Continuous Integration pipeline. Procedure:
-# 1a. Perform Lint check, assemble
+# 1a. Perform static analysis, assemble
 # 1b. Setup AVD cache for emulator
 # 2a. Run unit tests
 # 2b. Run instrumentation tests
