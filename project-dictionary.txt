@@ -11,3 +11,4 @@ ERRORLEVEL
 Dorg
 appname
 endlocal
+ktlintCheck
