@@ -85,6 +85,9 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    // Kotlinx
+    implementation(libs.kotlinx.coroutines.core)
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.ksp)
