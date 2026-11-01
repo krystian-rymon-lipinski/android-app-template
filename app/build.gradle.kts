@@ -94,6 +94,8 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.ksp)
 
+    implementation(libs.timber)
+
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

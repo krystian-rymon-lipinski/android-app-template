@@ -630,7 +630,7 @@ style:
         value: 'STOPSHIP:'
       - reason: 'Forbidden TODO todo marker in comment, please do the changes.'
         value: 'TODO:'
-    allowedPatterns: 'TODO [TEMPLATE]:'
+    allowedPatterns: 'TODO [TEMPLATE]:|TODO [SETUP]:'
   ForbiddenImport:
     active: false
     forbiddenImports: []
