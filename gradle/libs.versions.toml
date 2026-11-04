@@ -14,6 +14,7 @@ kotlinxSerialization = "1.11.0"
 timber = "5.0.1"
 junit = "4.13.2"
 junitVersion = "1.3.0"
+mockk = "1.14.11"
 espressoCore = "3.7.0"
 appcompat = "1.7.1"
 material = "1.13.0"
@@ -41,6 +42,7 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+mockk = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
