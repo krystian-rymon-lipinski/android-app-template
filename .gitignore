@@ -1,15 +1,29 @@
-*.iml
+# Gradle caches
 .gradle
+
+# Generated code and build artifacts
+/build
+/app/build
+
+# Machine specific configuration and secrets (only the project-root file)
 /local.properties
+
+# IDE settings
+*.iml
+/.idea/shelf/
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
-/build
+
+# Export folder for AndroidStudio profiler
 /captures
+
+# Native C/C++ for Android
 .externalNativeBuild
 .cxx
-local.properties
+
+# Folder view preferences on macOS
+.DS_Store
