@@ -37,19 +37,15 @@ fun MyTheme(isSystemInDarkTheme: Boolean = isSystemInDarkTheme(), content: @Comp
         else -> BaseColorSchemeLight
     }
 
-    MaterialTheme(
-        colorScheme = colors,
-        content = content
-    )
-
     CompositionLocalProvider(
         LocalCustomTypography provides CustomTypographyInstance,
         LocalCustomShapes provides CustomShapesInstance,
         LocalCustomColorScheme provides provideCustomColorScheme(isSystemInDarkTheme)
     ) {
-        MaterialTheme {
-            content()
-        }
+        MaterialTheme(
+            colorScheme = colors,
+            content = content
+        )
     }
 }
 
