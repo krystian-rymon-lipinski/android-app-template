@@ -3,7 +3,7 @@ package com.krystianrymonlipinski.androidapptemplate
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.krystianrymonlipinski.androidapptemplate.ui.theme.MyTheme
+import com.krystianrymonlipinski.androidapptemplate.ui.theme.TemplateTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyTheme { }
+            TemplateTheme { }
         }
     }
 }
