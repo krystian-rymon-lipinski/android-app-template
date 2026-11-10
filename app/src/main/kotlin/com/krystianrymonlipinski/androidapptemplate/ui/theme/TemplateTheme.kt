@@ -23,7 +23,10 @@ val LocalCustomColorScheme = staticCompositionLocalOf {
 }
 
 @Composable
-fun TemplateTheme(isSystemInDarkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+fun TemplateTheme(
+    isSystemInDarkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
     val context = LocalContext.current
     val colors = when {
         (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) -> {
@@ -56,7 +59,7 @@ fun provideCustomColorScheme(isSystemInDarkTheme: Boolean) = if (isSystemInDarkT
     CustomColorSchemeLightInstance
 }
 
-object MyTheme {
+object TemplateTheme {
     val base: MaterialTheme
         @Composable get() = MaterialTheme
     val custom: CustomTheme
