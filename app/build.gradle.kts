@@ -1,4 +1,6 @@
 import dev.detekt.gradle.extensions.FailOnSeverity
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -24,6 +26,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            val keystorePropertiesFile: File = rootProject.file("keystore.properties")
+            val keystoreProperties = Properties()
+            keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
+            storeFile = file(keystoreProperties["keystoreFile"].toString())
+            storePassword = keystoreProperties["keystorePassword"].toString()
+            keyAlias = keystoreProperties["keyAlias"].toString()
+            keyPassword = keystoreProperties["keyPassword"].toString()
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -32,6 +47,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 

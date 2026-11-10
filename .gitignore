@@ -28,3 +28,7 @@
 
 # Folder view preferences on macOS
 .DS_Store
+
+# Keystore assets for release
+/keys
+/keystore.properties
